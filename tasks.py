@@ -1,4 +1,4 @@
-# Copyright (c) 2015-2018 The Botogram Authors (see AUTHORS)
+# Copyright (c) 2015-2019 The Botogram Authors (see AUTHORS)
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -53,8 +53,8 @@ PYTHON = "python3"
 PROJECT = "botogram"
 VERSION = "1.0.dev0"
 
-ISSUES = "https://github.com/pietroalbini/botogram/issues"
-COPYRIGHT = "Pietro Albini <pietro@pietroalbini.io>"
+ISSUES = "https://github.com/python-botogram/botogram/issues"
+COPYRIGHT = "The Botogram Authors <mail@botogram.dev>"
 
 
 def create_env(name, requirements=False, self=False, force=False):

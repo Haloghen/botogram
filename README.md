@@ -23,13 +23,13 @@ if __name__ == "__main__":
     bot.run()
 ```
 
-You can find the documentation at [botogram.pietroalbini.org][2]. Also, you can
+You can find the documentation at [botogram.dev][2]. Also, you can
 get all the news about botogram in its [Telegram channel][channel].
 
 > Please note botogram currently doesn't support some of the upstream API
 > features. All of them will be implemented in botogram 1.0
 
-**Supported Python versions**: 3.4, 3.5  
+**Supported Python versions**: 3.4+
 **License**: MIT
 
 ### Installation
@@ -37,13 +37,13 @@ get all the news about botogram in its [Telegram channel][channel].
 You can install easily botogram with pip (be sure to have Python 3.4 or higher
 installed):
 
-    $ python3 -m pip install botogram
+    $ python3 -m pip install botogram2
 
 If you want to install from the source code, you can clone the repository and
 install it with setuptools. Be sure to have Python 3.4 (or a newer version),
 pip, virtualenv, setuptools and [invoke][3] installed:
 
-    $ git clone https://github.com/pietroalbini/botogram.git
+    $ git clone https://github.com/python-botogram/botogram.git
     $ cd botogram
     $ invoke install
 
@@ -51,6 +51,6 @@ On some Linux systems you might need to wrap the ``invoke install`` command with
 ``sudo``, if you don't have root privileges.
 
 [1]: https://core.telegram.org/bots
-[2]: https://botogram.pietroalbini.org/docs
+[2]: https://botogram.dev/docs
 [3]: http://www.pyinvoke.org
 [channel]: https://telegram.me/botogram_framework

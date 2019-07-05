@@ -1,4 +1,4 @@
-# Copyright (c) 2015-2018 The Botogram Authors (see AUTHORS)
+# Copyright (c) 2015-2019 The Botogram Authors (see AUTHORS)
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -24,8 +24,8 @@ from .base import BaseObject, _itself
 from . import mixins
 from .. import utils
 from .chats import User, Chat
-from .media import Audio, Voice, Document, Photo, Sticker, Video, Contact, \
-    Location, Venue
+from .media import Audio, Voice, Document, Photo, Sticker, Video, VideoNote, \
+    Contact, Location, Venue
 
 
 _url_protocol_re = re.compile(r"^https?:\/\/|s?ftp:\/\/|mailto:", re.I)
@@ -334,6 +334,8 @@ class Message(BaseObject, mixins.MessageMixin):
         "forward_from": User,
         "forward_from_chat": Chat,
         "forward_from_message_id": int,
+        "forward_sender_name": str,
+        "forward_signature": str,
         "forward_date": int,
         "reply_to_message": _itself,
         "text": str,
@@ -343,6 +345,7 @@ class Message(BaseObject, mixins.MessageMixin):
         "photo": Photo,
         "sticker": Sticker,
         "video": Video,
+        "video_note": VideoNote,
         "caption": str,
         "contact": Contact,
         "location": Location,
@@ -368,6 +371,7 @@ class Message(BaseObject, mixins.MessageMixin):
         # Those are provided dynamically by self.forward_from
         "forward_from": "_forward_from",
         "forward_from_chat": "_forward_from_chat",
+        "forward_sender_name": "_forward_sender_name",
     }
     _check_equality_ = "message_id"
 
@@ -389,11 +393,23 @@ class Message(BaseObject, mixins.MessageMixin):
         """Get from where the message was forwarded"""
         # Provide either _forward_from or _forward_from_chat
         # _forward_from_chat is checked earlier because it's more correct
+        # _forward_sender_name is returned if the original sender
+        # has opted to hide his account
+
         if self._forward_from_chat is not None:
             return self._forward_from_chat
 
         if self._forward_from is not None:
             return self._forward_from
+
+        if self._forward_sender_name is not None:
+            return self._forward_sender_name
+
+    @property
+    def forward_hidden(self):
+        """Check if the original sender is hidden or not"""
+
+        return isinstance(self.forward_from, str)
 
     @property
     def channel_post_author(self):
@@ -418,7 +434,7 @@ class Message(BaseObject, mixins.MessageMixin):
         return self.left_chat_member
 
     @property
-    @utils.deprecated("Message.message_id", "0.5",
+    @utils.deprecated("Message.message_id", "0.6",
                       "Rename property to Message.id")
     def message_id(self):
         return self.id
