@@ -406,7 +406,7 @@ about its business.
 
          Added support for syntax
 
-   .. py:method:: send_location(latitude, longitude, [reply_to=None, attach=None, extra=None, notify=True])
+   .. py:method:: send_location(latitude, longitude, [live_period=None, reply_to=None, attach=None, extra=None, notify=True])
 
       Send the geographic location to the user. If the location you're sending
       is in reply to another message, set *reply_to* to the ID of the other
@@ -418,8 +418,12 @@ about its business.
       The *notify* parameter is for defining if your message should trigger
       a notification on the client side (yes by default).
 
+      The *live_period* parameter is for defining if this location must be a live location and needs to be updated over time.
+      Leave to `None` if it is not or set it as a number between 60 and 86400 (seconds) if it is.
+
       :param float latitude: The latitude of the location
       :param float longitude: The longitude of the location
+      :param int live_period: The duration of the live location in seconds, None if it is not a live location.
       :param int reply_to: The ID of the :py:class:`~botogram.Message` this one is replying to
       :param object attach: An extra thing to attach to the message.
       :param object extra: An extra reply interface object to attach
@@ -434,6 +438,10 @@ about its business.
       .. versionchanged:: 0.3
 
          Now the method returns the sent message
+
+      .. versionchanged:: 0.7
+
+         Now the method supports live locations
 
    .. py:method:: send_venue(latitude, longitude, title, address, [foursquare=None, reply_to=None, attach=None, extra=None, notify=True])
 
@@ -476,7 +484,7 @@ about its business.
    .. py:method:: send_sticker([sticker=None, reply_to=None, attach=None, extra=None, notify=True, path=None, file_id=None, url=None])
 
       Send the sticker to the user (in webp format). You can specify the sticker by
-      passing its *path*, its *url*, or its Telegram *file_id*. Only one of these 
+      passing its *path*, its *url*, or its Telegram *file_id*. Only one of these
       arguments must be passed. If the sticker you're sending is in reply to another message,
       set *reply_to* to the ID of the other :py:class:`~botogram.Message`.
 
@@ -500,7 +508,7 @@ about its business.
       .. deprecated:: 0.4
 
          The *extra* parameter is now deprecated
-         
+
      .. deprecated:: 0.6
 
          The *sticker* parameter is now deprecated
@@ -986,7 +994,7 @@ about its business.
 
       Send a photo to the chat. You can specify the photo by passing its *path*,
       its *url*, or its Telegram *file_id*. Only one of these arguments must be passed.
-      
+
       You may optionally specify a
       *caption* for the photo being sent. If the photo you are sending is in
       reply to another message, set *reply_to* to the ID of the other
@@ -1021,16 +1029,16 @@ about its business.
       .. versionchanged:: 0.5
 
          Added support for *file_id* and *url*
-         
+
       .. versionchanged:: 0.6
-      
+
          Support text formatting in caption through *syntax*.
 
    .. py:method:: send_audio([path=None, file_id=None, url=None, duration=None, performer=None, title=None, reply_to=None, extra=None, attach=None, notify=True, caption=None, syntax=None])
 
       Send an audio track to the chat. You can specify the track by passing its *path*,
       its *url*, or its Telegram *file_id*. Only one of these arguments must be passed.
-      
+
       You may optionally
       specify the *duration*, the *performer* and the *title* of the audio
       track. If the audio track you're sending is in reply to another message,
@@ -1068,16 +1076,16 @@ about its business.
       .. versionchanged:: 0.5
 
          Added support for *caption*, *file_id* and *url*
-         
+
       .. versionchanged:: 0.6
-      
+
          Support text formatting in caption through *syntax*.
 
    .. py:method:: send_voice([path=None, file_id=None, url=None, duration=None, reply_to=None, extra=None, attach=None, notify=True, caption=None, syntax=None])
 
       Send a voice message to the chat. You can specify the audio by passing its *path*,
       its *url*, or its Telegram *file_id*. Only one of these arguments must be passed.
-      
+
       You may optionally specify the *duration* of the voice message. If the voice
       message you're sending is in reply to another message, set *reply_to* to
       the ID of the other :py:class:`~botogram.Message`.
@@ -1112,16 +1120,16 @@ about its business.
       .. versionchanged:: 0.5
 
          Added support for *caption*, *file_id* and *url*
-         
+
       .. versionchanged:: 0.6
-      
+
          Support text formatting in caption through *syntax*.
 
    .. py:method:: send_video([path=None, file_id=None, url=None, duration=None, caption=None, streaming=True, reply_to=None, extra=None, attach=None, notify=True, syntax=None])
 
       Send a video to the chat. You can specify the video by passing its *path*,
       its *url*, or its Telegram *file_id*. Only one of these arguments must be passed.
-      
+
       You may optionally
       specify the *duration* and the *caption* of the video. If the audio track
       you're sending is in reply to another message, set *reply_to* to the ID
@@ -1158,9 +1166,9 @@ about its business.
       .. versionchanged:: 0.5
 
          Added support for *file_id* and *url*
-         
+
       .. versionchanged:: 0.6
-      
+
          Support text formatting in caption through *syntax*.
 
    .. py:method:: send_video_note([path=None, file_id=None, duration=None, diameter=None, reply_to=None, attach=None, extra=None, notify=True])
@@ -1199,7 +1207,7 @@ about its business.
 
       Send a generic file to the chat. You can specify the video by passing its *path*,
       its *url*, or its Telegram *file_id*. Only one of these arguments must be passed.
-      
+
       If the file you're sending is in reply to another message, set *reply_to* to the ID of the
       other :py:class:`~botogram.Message`.
 
@@ -1232,14 +1240,14 @@ about its business.
       .. versionchanged:: 0.5
 
          Added support for *caption*, *file_id* and *url*
-         
+
       .. versionchanged:: 0.6
-      
+
          Support text formatting in caption through *syntax*.
 
-   .. py:method:: send_location(latitude, longitude, [reply_to=None, attach=None, extra=None, notify=True])
+   .. py:method:: send_location(latitude, longitude, [live_period=None, reply_to=None, attach=None, extra=None, notify=True])
 
-      Send the geographic location to the chat. If the location you're sending
+      Send the geographic location to the user. If the location you're sending
       is in reply to another message, set *reply_to* to the ID of the other
       :py:class:`~botogram.Message`.
 
@@ -1249,8 +1257,12 @@ about its business.
       The *notify* parameter is for defining if your message should trigger
       a notification on the client side (yes by default).
 
+      The *live_period* parameter is for defining if this location must be a live location and needs to be updated over time.
+      Leave to `None` if it is not or set it as a number between 60 and 86400 (seconds) if it is.
+
       :param float latitude: The latitude of the location
       :param float longitude: The longitude of the location
+      :param int live_period: The duration of the live location in seconds, None if it is not a live location.
       :param int reply_to: The ID of the :py:class:`~botogram.Message` this one is replying to
       :param object attach: An extra thing to attach to the message.
       :param object extra: An extra reply interface object to attach
@@ -1265,6 +1277,10 @@ about its business.
       .. versionchanged:: 0.3
 
          Now the method returns the sent message
+
+      .. versionchanged:: 0.7
+
+         Now the method supports live locations
 
    .. py:method:: send_venue(latitude, longitude, title, address, [foursquare=None, reply_to=None, attach=None, extra=None, notify=True])
 
@@ -1304,7 +1320,7 @@ about its business.
    .. py:method:: send_sticker([sticker=None, reply_to=None, attach=None, extra=None, notify=True, file_id=None, url=None])
 
       Send the sticker to the chat (in webp format). You can specify the sticker by
-      passing its *path*, its *url*, or its Telegram *file_id*. Only one of these 
+      passing its *path*, its *url*, or its Telegram *file_id*. Only one of these
       arguments must be passed. If the sticker you're sending is in reply to another message,
       set *reply_to* to the ID of the other :py:class:`~botogram.Message`.
 
@@ -1328,7 +1344,7 @@ about its business.
       .. deprecated:: 0.4
 
          The *extra* parameter is now deprecated
-         
+
      .. deprecated:: 0.6
 
          The *sticker* parameter is now deprecated
@@ -1871,9 +1887,9 @@ about its business.
          The *extra* parameter is now deprecated
 
       .. versionadded:: 0.3
-      
+
       .. versionchanged:: 0.6
-      
+
          Support text formatting in caption through *syntax*.
 
    .. py:method:: edit_attach(attach)
@@ -1894,6 +1910,34 @@ about its business.
       :param object attach: The new attachment
 
       .. versionadded:: 0.4
+
+   .. py:method:: edit_live_location(latitude, longitude, [extra=None, attach=None])
+
+      This method allows you to edit the latitude and longitude of a live location you already sent.
+
+      :param float latitude: The new latitude
+      :param float longitude: The new longitude
+      :param object attach: An extra thing to attach to the message.
+      :param object extra: An extra reply interface object to attach.
+
+      .. deprecated:: 0.4
+
+         The *extra* parameter is now deprecated
+
+      .. versionadded:: 0.7
+
+   .. py:method:: stop_live_location([extra=None, attach=None])
+
+      This method allows you to stop a live location and prevent further latitude and longitude edits.
+
+      :param object attach: An extra thing to attach to the message.
+      :param object extra: An extra reply interface object to attach.
+
+      .. deprecated:: 0.4
+
+         The *extra* parameter is now deprecated.
+
+      .. versionadded:: 0.7
 
    .. py:method:: forward_to(to[, notify=True])
 
@@ -2117,7 +2161,7 @@ about its business.
 
          Now the method returns the sent message
 
-   .. py:method:: reply_with_location(latitude, longitude, [attach=None, extra=None, notify=True])
+   .. py:method:: reply_with_location(latitude, longitude, [live_period=None, attach=None, extra=None, notify=True])
 
       Send the geographic location to the user.
 
@@ -2127,8 +2171,13 @@ about its business.
       The *notify* parameter is for defining if your message should trigger
       a notification on the client side (yes by default).
 
+      The *live_period* parameter is for defining if this location must be a live location and needs to be updated over time.
+      Leave to `None` if it is not or set it as a number between 60 and 86400 (seconds) if it is.
+
       :param float latitude: The latitude of the location
       :param float longitude: The longitude of the location
+      :param int live_period: The duration of the live location in seconds, None if it is not a live location.
+      :param int reply_to: The ID of the :py:class:`~botogram.Message` this one is replying to
       :param object attach: An extra thing to attach to the message.
       :param object extra: An extra reply interface object to attach
       :param bool notify: If you want to trigger the client notification.
@@ -2142,6 +2191,10 @@ about its business.
       .. versionchanged:: 0.3
 
          Now the method returns the sent message
+
+      .. versionchanged:: 0.7
+
+         Now the method supports live locations
 
    .. py:method:: reply_with_venue(latitude, longitude, title, address, [foursquare=None, attach=None, extra=None, notify=True])
 
